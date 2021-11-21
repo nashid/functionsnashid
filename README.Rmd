@@ -1,0 +1,76 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# functionsnashid
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+During the data exploration phase, developers write repeated code to investigate the summary view based on different categories. The goal of this package is to avoid writing [boilerplate code](https://en.wikipedia.org/wiki/Boilerplate_code) during the data exploration phase. This package implements counting the number of observations per category in a given dataset and returns the top observations. 
+
+## Installation
+
+This package is not in the CRAN yet. You can install the development version of `functionsnashid` from the [GitHub](https://github.com/stat545ubc-2021/functionsnashid) repository with:
+
+``` r
+devtools::install_github("stat545ubc-2021/functionsnashid")
+```
+
+## Basic Example
+
+Please check `?count_by_category` for a more detailed explanation of the function. Now we demonstrate the basic usage of the function:
+
+1. **Results in descending order by default:**
+
+```{r}
+library(functionsnashid)
+library(tidyverse)
+library(datateachr)
+
+games <- steam_games %>%
+  select(id, name, genre, publisher, developer, original_price, release_date, all_reviews) %>%
+  separate_rows(genre, sep = ",", convert = TRUE)
+
+count_by_category(steam_games, genre, 5)
+```
+
+2. **Results in ascending order:**
+
+```{r}
+count_by_category(steam_games, genre, 5, FALSE)
+```
+
+## More Examples with Different Datasets
+
+Here we would demonstrate the usage of the function `count_by_category` to explore different dataset:
+
+#### Get the count of trees per genus in the `vancouver_trees` dataset.
+
+We see Acer genus i.e. family of Maple trees are the most common in vancouver.
+
+```{r}
+count_by_category(vancouver_trees, genus_name, 5)
+```
+
+#### Get the count of apartment buildings per property type in the `apt_buildings` dataset. 
+
+```{r}
+count_by_category(apt_buildings, property_type, 5)
+```
+#### What `heating_types` are common in in the `apt_buildings` dataset?
+
+```{r}
+count_by_category(apt_buildings, heating_type, 5)
+```
